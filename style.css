@@ -107,3 +107,13 @@ body {
     background: rgba(255, 193, 7, 0.25);
     z-index: 1;
 }
+
+#status-bar {
+    padding: 0.5rem 1rem;
+    text-align: center;
+}
+
+#status-text {
+    font-size: 1rem;
+    color: #666;
+}

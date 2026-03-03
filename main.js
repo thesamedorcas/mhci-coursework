@@ -10,8 +10,8 @@ var smoothing = 0.05;
 var active_button = -1;
 var hold_timer = null;
 var hold_time = 2000;
-var anim_frame  = null;
-var hold_start  = null;
+var anim_frame = null;
+var hold_start = null;
 
 //ask iphone for permission to access motion sensors, then start the app
 function onStartButton() {
@@ -101,6 +101,7 @@ function updateHighlight(idx) {
     hold_start = Date.now();
     startFill(cell);
     hold_timer = setTimeout(function () { buttonSelected(idx); }, hold_time);
+    document.getElementById('status-text').textContent = 'Keep steady...';
 }
 function buttonSelected(idx) {
     var cell = document.getElementById('button-' + idx);
@@ -109,11 +110,13 @@ function buttonSelected(idx) {
     cell.classList.remove('highlighted');
     cell.classList.add('activated');
     setFill(cell, 1);
-    setTimeout(function() {
+    document.getElementById('status-text').textContent = 'Button ' + (idx + 1) + ' selected!';
+    setTimeout(function () {
         cell.classList.remove('activated');
         setFill(cell, 0);
         active_button = -1;
-    }, 900);
+        document.getElementById('status-text').textContent = 'Tilt to a button, keep steady to select';
+    }, 1000);
 }
 function startFill(cell) {
     function tick() {
@@ -124,7 +127,6 @@ function startFill(cell) {
     }
     anim_frame = requestAnimationFrame(tick);
 }
-
 function setFill(cell, progress) {
     var fill = cell.querySelector('.button-fill');
     if (fill) fill.style.height = (progress * 100) + '%';

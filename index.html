@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Tilt to Pick</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Tilt to Pick</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <div id="start-screen" class="screen active">
-    <h1>Tilt to Pick</h1>
-    <p>Tilt your phone to move between buttons.<br>Hold still on one button to select it.</p>
-    <button onclick="onStartButton()">Start</button>
-  </div>
-  <div id="main-screen" class="screen">
-    <div class="button-row">
-      <div class="button-cell" id="button-0"><div class="button-fill"></div><span class="button-label">1</span></div>
-      <div class="button-cell" id="button-1"><div class="button-fill"></div><span class="button-label">2</span></div>
-      <div class="button-cell" id="button-2"><div class="button-fill"></div><span class="button-label">3</span></div>
+    <div id="start-screen" class="screen active">
+        <h1>Tilt to Pick</h1>
+        <p>Tilt your phone to move between buttons.<br>Hold still on one button to select it.</p>
+        <button onclick="onStartButton()">Start</button>
     </div>
-    <div class="button-row">
-      <div class="button-cell" id="button-3"><div class="button-fill"></div><span class="button-label">4</span></div>
-      <div class="button-cell" id="button-4"><div class="button-fill"></div><span class="button-label">5</span></div>
-      <div class="button-cell" id="button-5"><div class="button-fill"></div><span class="button-label">6</span></div>
+    <div id="main-screen" class="screen">
+        <div class="button-row">
+            <div class="button-cell" id="button-0">
+                <div class="button-fill"></div><span class="button-label">1</span>
+            </div>
+            <div class="button-cell" id="button-1">
+                <div class="button-fill"></div><span class="button-label">2</span>
+            </div>
+            <div class="button-cell" id="button-2">
+                <div class="button-fill"></div><span class="button-label">3</span>
+            </div>
+        </div>
+        <div id="status-bar">
+            <span id="status-text">Tilt to a button, keep steady to select</span>
+        </div>
+        <div class="button-row">
+            <div class="button-cell" id="button-3">
+                <div class="button-fill"></div><span class="button-label">4</span>
+            </div>
+            <div class="button-cell" id="button-4">
+                <div class="button-fill"></div><span class="button-label">5</span>
+            </div>
+            <div class="button-cell" id="button-5">
+                <div class="button-fill"></div><span class="button-label">6</span>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script src="main.js"></script>
+    <script src="main.js"></script>
 </body>
+
 </html>
