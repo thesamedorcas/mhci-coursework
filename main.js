@@ -8,6 +8,8 @@ var max_tilt = 50;
 var threshold = 12;
 var smoothing = 0.05;
 var active_button = -1;
+var hold_timer = null;
+var hold_time  = 1600;
 
 //ask iphone for permission to access motion sensors, then start the app
 function onStartButton() {
@@ -81,7 +83,7 @@ function tiltToIndex(angle, count) {
 }
 function updateHighlight(idx) {
     if (idx === active_button) return;
-    // clear the old button
+    clearTimeout(hold_timer);
     if (active_button >= 0) {
         var old = document.getElementById('button-' + active_button);
         if (old) old.classList.remove('highlighted');
@@ -90,5 +92,6 @@ function updateHighlight(idx) {
     if (idx < 0) return;
     var cell = document.getElementById('button-' + idx);
     if (cell) cell.classList.add('highlighted');
+    hold_timer = setTimeout(function() { buttonSelected(idx); }, hold_time);
 }
 window.addEventListener('deviceorientation', onTilt);
