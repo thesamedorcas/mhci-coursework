@@ -7,6 +7,7 @@ var current_g = 0;
 var max_tilt = 50;
 var threshold = 12;
 var smoothing = 0.05;
+var active_button = -1;
 
 //ask iphone for permission to access motion sensors, then start the app
 function onStartButton() {
@@ -72,10 +73,22 @@ function onTilt(e) {
     //which row and column the tilt points to
     var col = tiltToIndex(current_g, 3);
     var row = tiltToIndex(current_b, 2);
-    console.log('row:', row, 'col:', col);
+    updateHighlight(row * 3 + col);
 }
 function tiltToIndex(angle, count) {
     var n = Math.max(-1, Math.min(1, angle / max_tilt));
     return Math.min(count - 1, Math.max(0, Math.floor((n + 1) / 2 * count)));
+}
+function updateHighlight(idx) {
+    if (idx === active_button) return;
+    // clear the old button
+    if (active_button >= 0) {
+        var old = document.getElementById('button-' + active_button);
+        if (old) old.classList.remove('highlighted');
+    }
+    active_button = idx;
+    if (idx < 0) return;
+    var cell = document.getElementById('button-' + idx);
+    if (cell) cell.classList.add('highlighted');
 }
 window.addEventListener('deviceorientation', onTilt);

@@ -57,3 +57,10 @@ body {
   font-weight: bold;
   color: #ccc;
 }
+.button-cell.highlighted {
+    background: #fff8e1;
+    border-color: #FFC107;
+}
+.button-cell.highlighted .button-label {
+    color: #FFC107;
+}
