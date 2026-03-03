@@ -10,6 +10,8 @@ var smoothing = 0.05;
 var active_button = -1;
 var hold_timer = null;
 var hold_time = 2000;
+var anim_frame  = null;
+var hold_start  = null;
 
 //ask iphone for permission to access motion sensors, then start the app
 function onStartButton() {
@@ -84,24 +86,47 @@ function tiltToIndex(angle, count) {
 function updateHighlight(idx) {
     if (idx === active_button) return;
     clearTimeout(hold_timer);
+    cancelAnimationFrame(anim_frame);
     if (active_button >= 0) {
         var old = document.getElementById('button-' + active_button);
-        if (old) old.classList.remove('highlighted');
+        if (old) {
+            old.classList.remove('highlighted');
+            setFill(old, 0);
+        }
     }
     active_button = idx;
     if (idx < 0) return;
     var cell = document.getElementById('button-' + idx);
     if (cell) cell.classList.add('highlighted');
+    hold_start = Date.now();
+    startFill(cell);
     hold_timer = setTimeout(function () { buttonSelected(idx); }, hold_time);
 }
 function buttonSelected(idx) {
     var cell = document.getElementById('button-' + idx);
     if (!cell) return;
+    cancelAnimationFrame(anim_frame);
     cell.classList.remove('highlighted');
     cell.classList.add('activated');
-    setTimeout(function () {
+    setFill(cell, 1);
+    setTimeout(function() {
         cell.classList.remove('activated');
+        setFill(cell, 0);
         active_button = -1;
     }, 900);
+}
+function startFill(cell) {
+    function tick() {
+        if (!hold_start) return;
+        var progress = Math.min(1, (Date.now() - hold_start) / hold_time);
+        setFill(cell, progress);
+        if (progress < 1) anim_frame = requestAnimationFrame(tick);
+    }
+    anim_frame = requestAnimationFrame(tick);
+}
+
+function setFill(cell, progress) {
+    var fill = cell.querySelector('.button-fill');
+    if (fill) fill.style.height = (progress * 100) + '%';
 }
 window.addEventListener('deviceorientation', onTilt);
