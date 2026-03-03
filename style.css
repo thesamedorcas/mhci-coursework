@@ -64,3 +64,10 @@ body {
 .button-cell.highlighted .button-label {
     color: #FFC107;
 }
+.button-cell.activated {
+    background: #e8f5e9;
+    border-color: #4CAF50;
+}
+.button-cell.activated .button-label {
+    color: #4CAF50;
+}

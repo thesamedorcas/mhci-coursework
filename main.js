@@ -9,7 +9,7 @@ var threshold = 12;
 var smoothing = 0.05;
 var active_button = -1;
 var hold_timer = null;
-var hold_time  = 1600;
+var hold_time = 2000;
 
 //ask iphone for permission to access motion sensors, then start the app
 function onStartButton() {
@@ -92,6 +92,16 @@ function updateHighlight(idx) {
     if (idx < 0) return;
     var cell = document.getElementById('button-' + idx);
     if (cell) cell.classList.add('highlighted');
-    hold_timer = setTimeout(function() { buttonSelected(idx); }, hold_time);
+    hold_timer = setTimeout(function () { buttonSelected(idx); }, hold_time);
+}
+function buttonSelected(idx) {
+    var cell = document.getElementById('button-' + idx);
+    if (!cell) return;
+    cell.classList.remove('highlighted');
+    cell.classList.add('activated');
+    setTimeout(function () {
+        cell.classList.remove('activated');
+        active_button = -1;
+    }, 900);
 }
 window.addEventListener('deviceorientation', onTilt);
