@@ -38,7 +38,6 @@ body {
   align-items: stretch;
   padding: 0;
 }
-
 .button-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
