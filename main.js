@@ -12,7 +12,13 @@ var hold_timer = null;
 var hold_time = 2000;
 var anim_frame = null;
 var hold_start = null;
-
+var speed_settings = [
+    { max_tilt: 60, hold_time: 3000, smoothing: 0.03 },
+    { max_tilt: 50, hold_time: 2000, smoothing: 0.05 },
+    { max_tilt: 40, hold_time: 1500, smoothing: 0.07 },
+    { max_tilt: 30, hold_time: 1000, smoothing: 0.09 },
+    { max_tilt: 20, hold_time: 500, smoothing: 0.11 },
+];
 //ask iphone for permission to access motion sensors, then start the app
 function onStartButton() {
     if (typeof DeviceOrientationEvent !== 'undefined' &&
@@ -130,5 +136,11 @@ function startFill(cell) {
 function setFill(cell, progress) {
     var fill = cell.querySelector('.button-fill');
     if (fill) fill.style.height = (progress * 100) + '%';
+}
+function changeSpeed() {
+    var level = parseInt(document.getElementById('speed-select').value) - 1;
+    max_tilt = speed_settings[level].max_tilt;
+    hold_time = speed_settings[level].hold_time;
+    smoothing = speed_settings[level].smoothing;
 }
 window.addEventListener('deviceorientation', onTilt);

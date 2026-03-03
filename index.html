@@ -16,6 +16,15 @@
         <button onclick="onStartButton()">Start</button>
     </div>
     <div id="main-screen" class="screen">
+        <div id="top-bar">
+            <select id="speed-select" onchange="changeSpeed()">
+                <option value="1">Very Slow</option>
+                <option value="2" selected>Slow</option>
+                <option value="3">Medium</option>
+                <option value="4">Fast</option>
+                <option value="5">Very Fast</option>
+            </select>
+        </div>
         <div class="button-row">
             <div class="button-cell" id="button-0">
                 <div class="button-fill"></div><span class="button-label">1</span>

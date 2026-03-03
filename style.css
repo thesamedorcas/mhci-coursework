@@ -117,3 +117,18 @@ body {
     font-size: 1rem;
     color: #666;
 }
+
+#top-bar {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #eee;
+    background: #fafafa;
+}
+
+#speed-select {
+    font-size: 1rem;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    background: white;
+}
