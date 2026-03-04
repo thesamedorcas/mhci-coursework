@@ -132,3 +132,36 @@ body {
     border: 1px solid #ccc;
     background: white;
 }
+
+#eval-btn {
+    padding: 0.5rem 1.1rem;
+    font-size: 1rem;
+    background: #222;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+#eval-btn.stop {
+    background: #d32f2f;
+}
+
+#eval-stats {
+    display: none;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+    background: #f0f0f0;
+    border-top: 1px solid #ddd;
+}
+
+.button-cell.target {
+    background: #fff5f5;
+    border-color: #f44336;
+}
+
+.button-cell.target .button-label {
+    color: #f44336;
+}

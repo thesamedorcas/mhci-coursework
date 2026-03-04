@@ -12,6 +12,14 @@ var hold_timer = null;
 var hold_time = 2000;
 var anim_frame = null;
 var hold_start = null;
+var eval_on = false;
+var target_btn = -1;
+var round_num = 0;
+var round_start = null;
+var num_correct = 0;
+var num_wrong = 0;
+var all_times = [];
+var num_rounds = 10;
 var speed_settings = [
     { max_tilt: 60, hold_time: 3000, smoothing: 0.03 },
     { max_tilt: 50, hold_time: 2000, smoothing: 0.05 },
@@ -117,11 +125,13 @@ function buttonSelected(idx) {
     cell.classList.add('activated');
     setFill(cell, 1);
     document.getElementById('status-text').textContent = 'Button ' + (idx + 1) + ' selected!';
+    if (eval_on) logResult(idx);
     setTimeout(function () {
         cell.classList.remove('activated');
         setFill(cell, 0);
         active_button = -1;
-        document.getElementById('status-text').textContent = 'Tilt to a button, keep steady to select';
+        if (eval_on) newRound();
+        else document.getElementById('status-text').textContent = 'Tilt to a button, keep steady to select';
     }, 1000);
 }
 function startFill(cell) {
@@ -142,5 +152,70 @@ function changeSpeed() {
     max_tilt = speed_settings[level].max_tilt;
     hold_time = speed_settings[level].hold_time;
     smoothing = speed_settings[level].smoothing;
+}
+function onEvalButton() {
+    if (eval_on) {
+        stopEval();
+    } else {
+        beginEval();
+    }
+}
+
+function beginEval() {
+    eval_on = true;
+    num_correct = 0;
+    num_wrong = 0;
+    all_times = [];
+    round_num = 0;
+    document.getElementById('eval-btn').textContent = 'Stop Evaluation';
+    document.getElementById('eval-btn').classList.add('stop');
+    document.getElementById('eval-stats').style.display = 'block';
+    updateStats();
+    newRound();
+}
+
+function stopEval() {
+    eval_on = false;
+    document.getElementById('eval-btn').textContent = 'Start Evaluation';
+    document.getElementById('eval-btn').classList.remove('stop');
+    document.getElementById('eval-stats').style.display = 'none';
+    clearTarget();
+    document.getElementById('status-text').textContent = 'Tilt to a button, keep steady to select';
+}
+
+function newRound() {
+    if (round_num >= num_rounds) { stopEval(); return; }
+    var last = target_btn;
+    do { target_btn = Math.floor(Math.random() * 6); } while (target_btn === last);
+    clearTarget();
+    document.getElementById('button-' + target_btn).classList.add('target');
+    round_start = Date.now();
+    round_num++;
+    var label = document.getElementById('button-' + target_btn).querySelector('.button-label').textContent;
+    document.getElementById('status-text').textContent = 'Select button ' + label + ' (' + round_num + '/' + num_rounds + ')';
+}
+
+function logResult(picked) {
+    var t = (Date.now() - round_start) / 1000;
+    all_times.push(t);
+    if (picked === target_btn) num_correct++;
+    else num_wrong++;
+    updateStats();
+}
+
+function updateStats() {
+    document.getElementById('stat-correct').textContent = num_correct;
+    document.getElementById('stat-wrong').textContent = num_wrong;
+    var avg = all_times.length
+        ? (all_times.reduce(function (a, b) { return a + b; }, 0) / all_times.length).toFixed(1)
+        : '-';
+    document.getElementById('stat-time').textContent = avg;
+}
+
+function clearTarget() {
+    for (var i = 0; i < 6; i++) {
+        var c = document.getElementById('button-' + i);
+        if (c) c.classList.remove('target');
+    }
 }
 window.addEventListener('deviceorientation', onTilt);

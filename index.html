@@ -24,6 +24,7 @@
                 <option value="4">Fast</option>
                 <option value="5">Very Fast</option>
             </select>
+            <button id="eval-btn" onclick="onEvalButton()">Start Evaluation</button>
         </div>
         <div class="button-row">
             <div class="button-cell" id="button-0">
@@ -50,8 +51,12 @@
                 <div class="button-fill"></div><span class="button-label">6</span>
             </div>
         </div>
+        <div id="eval-stats">
+            Correct: <strong id="stat-correct">0</strong> &nbsp;|&nbsp;
+            Wrong: <strong id="stat-wrong">0</strong> &nbsp;|&nbsp;
+            Avg time: <strong id="stat-time">-</strong>s
+        </div>
     </div>
-
     <script src="main.js"></script>
 </body>
 
