@@ -20,6 +20,7 @@ var num_correct = 0;
 var num_wrong = 0;
 var all_times = [];
 var num_rounds = 10;
+var is_activating = false; //added this cos i keep seeing a bug where the button isn't green?
 var speed_settings = [
     { max_tilt: 60, hold_time: 3000, smoothing: 0.03 },
     { max_tilt: 50, hold_time: 2000, smoothing: 0.05 },
@@ -98,6 +99,7 @@ function tiltToIndex(angle, count) {
     return Math.min(count - 1, Math.max(0, Math.floor((n + 1) / 2 * count)));
 }
 function updateHighlight(idx) {
+    if (is_activating) return;
     if (idx === active_button) return;
     clearTimeout(hold_timer);
     cancelAnimationFrame(anim_frame);
@@ -121,7 +123,15 @@ function buttonSelected(idx) {
     var cell = document.getElementById('button-' + idx);
     if (!cell) return;
     cancelAnimationFrame(anim_frame);
-    cell.classList.remove('highlighted');
+    is_activating = true;
+    for (var i = 0; i < 6; i++) {
+        var c = document.getElementById('button-' + i);
+        if (c) {
+            c.classList.remove('highlighted');
+            c.classList.remove('activated');
+            setFill(c, 0);
+        }
+    }
     cell.classList.add('activated');
     setFill(cell, 1);
     document.getElementById('status-text').textContent = 'Button ' + (idx + 1) + ' selected!';
@@ -130,6 +140,7 @@ function buttonSelected(idx) {
         cell.classList.remove('activated');
         setFill(cell, 0);
         active_button = -1;
+        is_activating = false;
         if (eval_on) newRound();
         else document.getElementById('status-text').textContent = 'Tilt to a button, keep steady to select';
     }, 1000);
@@ -225,7 +236,7 @@ function displayResults() {
         ? Math.round((num_correct / all_times.length) * 100) + '%'
         : 'N/A';
     var avg = all_times.length
-        ? (all_times.reduce(function(a, b) { return a + b; }, 0) / all_times.length).toFixed(1) + 's'
+        ? (all_times.reduce(function (a, b) { return a + b; }, 0) / all_times.length).toFixed(1) + 's'
         : 'N/A';
     document.getElementById('results-text').innerHTML =
         'Rounds: ' + all_times.length + '<br>' +
