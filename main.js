@@ -85,7 +85,7 @@ function onTilt(e) {
     var beta = e.beta - start_beta;
     current_b += smoothing * (beta - current_b);
     current_g += smoothing * (gamma - current_g);
-    // lots of math like if you don't tilt much, don't do anything
+    // ignore tiny tilts/movements
     if (Math.abs(current_b) < threshold && Math.abs(current_g) < threshold) {
         return;
     }
@@ -135,11 +135,13 @@ function buttonSelected(idx) {
     cell.classList.add('activated');
     setFill(cell, 1);
     document.getElementById('status-text').textContent = 'Button ' + (idx + 1) + ' selected!';
+    showMsg('Button ' + (idx + 1) + ' selected!');
     if (eval_on) logResult(idx);
     setTimeout(function () {
         cell.classList.remove('activated');
         setFill(cell, 0);
         active_button = -1;
+        hideMsg();
         is_activating = false;
         if (eval_on) newRound();
         else document.getElementById('status-text').textContent = 'Tilt to a button, keep steady to select';
@@ -248,4 +250,12 @@ function displayResults() {
 
 function hideResults() {
     document.getElementById('results-popup').style.display = 'none';
+}
+function showMsg(msg) {
+    var el = document.getElementById('centre-msg');
+    el.textContent = msg;
+    el.classList.add('visible');
+}
+function hideMsg() {
+    document.getElementById('centre-msg').classList.remove('visible');
 }
