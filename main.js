@@ -181,6 +181,7 @@ function stopEval() {
     document.getElementById('eval-stats').style.display = 'none';
     clearTarget();
     document.getElementById('status-text').textContent = 'Tilt to a button, keep steady to select';
+    displayResults();
 }
 
 function newRound() {
@@ -219,3 +220,21 @@ function clearTarget() {
     }
 }
 window.addEventListener('deviceorientation', onTilt);
+function displayResults() {
+    var acc = all_times.length
+        ? Math.round((num_correct / all_times.length) * 100) + '%'
+        : 'N/A';
+    var avg = all_times.length
+        ? (all_times.reduce(function(a, b) { return a + b; }, 0) / all_times.length).toFixed(1) + 's'
+        : 'N/A';
+    document.getElementById('results-text').innerHTML =
+        'Rounds: ' + all_times.length + '<br>' +
+        'Correct: ' + num_correct + '&nbsp;&nbsp;Wrong: ' + num_wrong + '<br>' +
+        'Accuracy: ' + acc + '<br>' +
+        'Avg time: ' + avg;
+    document.getElementById('results-popup').style.display = 'flex';
+}
+
+function hideResults() {
+    document.getElementById('results-popup').style.display = 'none';
+}
