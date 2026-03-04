@@ -244,7 +244,8 @@ function displayResults() {
         'Rounds: ' + all_times.length + '<br>' +
         'Correct: ' + num_correct + '&nbsp;&nbsp;Wrong: ' + num_wrong + '<br>' +
         'Accuracy: ' + acc + '<br>' +
-        'Avg time: ' + avg;
+        'Avg time: ' + avg+
+        '<br><small>' + all_times.map(function(t) { return t.toFixed(2); }).join(', ') + '</small>';
     document.getElementById('results-popup').style.display = 'flex';
 }
 
